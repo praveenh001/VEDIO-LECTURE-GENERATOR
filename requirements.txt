@@ -1,18 +1,18 @@
 # Core Requirements
-edge-tts>=6.1.3
-moviepy>=1.0.3
-Pillow>=9.5.0
-Flask>=2.3.2
+edge-tts
+moviepy
+Pillow
+Flask
 
 # MoviePy Dependencies (often needed)
-numpy>=1.21.0
-decorator>=4.0.0
-imageio>=2.9.0
-imageio-ffmpeg>=0.4.0
-requests>=2.25.0
+numpy
+decorator
+imageio
+imageio-ffmpeg
+requests
 
 # Additional Audio/Video Processing
-ffmpeg-python>=0.2.0
+ffmpeg-pytho
 
 # Async Support
-aiohttp>=3.8.0
+aiohttp
