@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generating Your Video</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .progress-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 600px;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .progress-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+        
+        h1 {
+            color: var(--dark);
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+        
+        /* Gradient text with full browser support */
+        .progress-percent {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            /* Standard property */
+            background-clip: text;
+            /* Vendor prefixes */
+            -webkit-background-clip: text;
+            -moz-background-clip: text;
+            /* Text color control */
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+            -moz-text-fill-color: transparent;
+        }
+        
+        /* Fallback for browsers without background-clip support */
+        @supports not (background-clip: text) {
+            .progress-percent {
+                color: var(--primary);
+                background: none;
+            }
+        }
+        
+        .progress-visual {
+            position: relative;
+            height: 120px;
+            margin: 30px 0;
+        }
+        
+        .wave-animation {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' fill='%234361ee' fill-opacity='0.3'/%3E%3Cpath d='M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z' fill='%234361ee' fill-opacity='0.2'/%3E%3Cpath d='M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z' fill='%234361ee'/%3E%3C/svg%3E");
+            background-size: 1200px 120px;
+            animation: wave 12s linear infinite;
+        }
+        
+        @keyframes wave {
+            0% { background-position-x: 0; }
+            100% { background-position-x: 1200px; }
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0.6) 50%,
+                rgba(255,255,255,0) 100%
+            );
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .progress-status {
+            font-size: 1.1rem;
+            color: var(--dark);
+            font-weight: 500;
+        }
+        
+        .stage-indicators {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+        }
+        
+        .stage {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+        
+        .stage::before {
+            content: '';
+            width: 16px;
+            height: 16px;
+            background: #adb5bd;
+            border-radius: 50%;
+            display: block;
+            margin: 0 auto 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .stage.active::before {
+            background: var(--accent);
+            box-shadow: 0 0 0 4px rgba(247, 37, 133, 0.3);
+        }
+        
+        .stage.completed::before {
+            background: var(--primary);
+        }
+        
+        .stage::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: -50%;
+            width: 100%;
+            height: 2px;
+            background: #adb5bd;
+            z-index: 0;
+        }
+        
+        .stage:first-child::after {
+            display: none;
+        }
+        
+        .stage.active ~ .stage::before,
+        .stage.active ~ .stage::after {
+            background: #e9ecef;
+        }
+        
+        .spinner {
+            width: 60px;
+            height: 60px;
+            margin: 20px auto;
+            position: relative;
+        }
+        
+        .spinner-circle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 6px solid transparent;
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        .spinner-circle:nth-child(2) {
+            border-top-color: var(--accent);
+            animation-delay: 0.2s;
+        }
+        
+        .spinner-circle:nth-child(3) {
+            border-top-color: var(--secondary);
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .video-preview {
+            width: 100%;
+            height: 150px;
+            background: rgba(0,0,0,0.05);
+            border-radius: 10px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #6c757d;
+            font-weight: 500;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .video-preview::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0.8) 50%,
+                rgba(255,255,255,0) 100%
+            );
+            animation: previewShimmer 2s infinite;
+        }
+        
+        @keyframes previewShimmer {
+            0% { transform: translateX(-100%) rotate(15deg); }
+            100% { transform: translateX(100%) rotate(15deg); }
+        }
+        
+        .btn-complete {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+            transition: all 0.3s ease;
+            display: none;
+        }
+        
+        .btn-complete:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.4);
+        }
+        
+        .error-message {
+            color: #dc3545;
+            background: rgba(220, 53, 69, 0.1);
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <h1>Creating Your Video</h1>
+        
+        <div class="progress-visual">
+            <div class="wave-animation"></div>
+        </div>
+        
+        <div class="progress-info">
+            <div class="progress-percent">0%</div>
+            <div class="progress-status">Initializing...</div>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        
+        <div class="stage-indicators">
+            <div class="stage" id="stage1">
+                <span>Processing</span>
+            </div>
+            <div class="stage" id="stage2">
+                <span>Generating</span>
+            </div>
+            <div class="stage" id="stage3">
+                <span>Rendering</span>
+            </div>
+            <div class="stage" id="stage4">
+                <span>Complete</span>
+            </div>
+        </div>
+        
+        <div class="video-preview" id="video-preview">
+            Your video preview will appear here
+        </div>
+        
+        <div class="spinner">
+            <div class="spinner-circle"></div>
+            <div class="spinner-circle"></div>
+            <div class="spinner-circle"></div>
+        </div>
+        
+        <div class="error-message" id="error-message"></div>
+        
+        <button class="btn-complete" id="btn-complete">View Your Video</button>
+    </div>
+
+    <script>
+        const taskId = "{{ task_id }}";
+        const progressFill = document.getElementById('progress-fill');
+        const progressPercent = document.querySelector('.progress-percent');
+        const progressStatus = document.querySelector('.progress-status');
+        const btnComplete = document.getElementById('btn-complete');
+        const errorMessage = document.getElementById('error-message');
+        const videoPreview = document.getElementById('video-preview');
+        
+        // Stage elements
+        const stage1 = document.getElementById('stage1');
+        const stage2 = document.getElementById('stage2');
+        const stage3 = document.getElementById('stage3');
+        const stage4 = document.getElementById('stage4');
+        
+        // Current active stage
+        let currentStage = 0;
+        
+        function updateStages(progress) {
+            if (progress < 25) {
+                setActiveStage(0);
+            } else if (progress < 50) {
+                setActiveStage(1);
+            } else if (progress < 75) {
+                setActiveStage(2);
+            } else {
+                setActiveStage(3);
+            }
+        }
+        
+        function setActiveStage(index) {
+            if (index === currentStage) return;
+            
+            // Reset all stages
+            [stage1, stage2, stage3, stage4].forEach((stage, i) => {
+                stage.classList.remove('active', 'completed');
+                if (i < index) {
+                    stage.classList.add('completed');
+                }
+            });
+            
+            // Set new active stage
+            [stage1, stage2, stage3, stage4][index].classList.add('active');
+            currentStage = index;
+        }
+        
+        function checkProgress() {
+            fetch(`/get_progress/${taskId}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Update progress bar
+                    const progress = data.progress;
+                    progressFill.style.width = `${progress}%`;
+                    progressPercent.textContent = `${progress}%`;
+                    progressStatus.textContent = data.status;
+                    
+                    // Update stages
+                    updateStages(progress);
+                    
+                    // Handle completion
+                    if (progress >= 100) {
+                        if (data.status.includes('Error')) {
+                            errorMessage.textContent = data.status;
+                            errorMessage.style.display = 'block';
+                        } else if (data.filename) {
+                            // Video is ready
+                            document.querySelector('.spinner').style.display = 'none';
+                            btnComplete.style.display = 'inline-block';
+                            videoPreview.innerHTML = `
+                                <div style="width:100%;text-align:center;">
+                                    <div style="font-size:3rem;">🎬</div>
+                                    <div>Your video is ready!</div>
+                                </div>
+                            `;
+                            videoPreview.style.background = "linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%)";
+                            videoPreview.style.color = "#00796b";
+                            videoPreview.style.fontWeight = "600";
+                            
+                            // Change button to view video
+                            btnComplete.onclick = () => {
+                                window.location.href = `/video/${data.filename}`;
+                            };
+                        }
+                        return;
+                    }
+                    
+                    // Continue polling
+                    setTimeout(checkProgress, 1000);
+                })
+                .catch(error => {
+                    console.error('Error checking progress:', error);
+                    setTimeout(checkProgress, 2000);
+                });
+        }
+        
+        // Start checking progress
+        checkProgress();
+        
+        // Animation for video preview
+        let counter = 0;
+        const previewTexts = [
+            "Preparing content...",
+            "Generating slides...",
+            "Creating narration...",
+            "Finalizing video..."
+        ];
+        
+        setInterval(() => {
+            if (document.querySelector('.spinner').style.display !== 'none') {
+                videoPreview.textContent = previewTexts[counter % previewTexts.length];
+                counter++;
+            }
+        }, 3000);
+    </script>
+</body>
+</html>
