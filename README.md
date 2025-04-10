@@ -32,19 +32,15 @@ Follow these steps to set up the **Video-Lecture-Generator** on your local machi
    ```bash
    git clone https://github.com/praveenh001/VEDIO-LECTURE-GENERATOR.git
 
-2. **Create a Virtual Environment(optional)**:
-   ```bash
-   python -m venv venv
-   venv\Scripts\activate
 
-3. **nstall Dependencies**:
+2. **Install Dependencies**:
    ```bash
    pip install -r requirements.txt
 
-4. **Ensure Node.js is Installed**:
+3. **Ensure Node.js is Installed**:
    ```bash
    node -v
 
-5. **Running the Application**:
+4. **Running the Application**:
    ```bash
    python app.py
