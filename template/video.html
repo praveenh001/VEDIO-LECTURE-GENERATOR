@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Video</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; text-align: center; }
+        video { max-width: 100%; margin: 20px 0; }
+        a { display: inline-block; padding: 10px 15px; background: #4CAF50; color: white; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <h1>Your Generated Video</h1>
+    <video controls autoplay>
+        <source src="{{ url_for('uploaded_file', filename=video_file) }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div><a href="{{ url_for('index') }}">Create Another Video</a></div>
+</body>
+</html>
