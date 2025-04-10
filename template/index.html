@@ -1,1 +1,28 @@
-
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        textarea { width: 100%; height: 300px; margin-bottom: 10px; padding: 10px; }
+        button { padding: 10px 15px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+        .error { color: red; margin-bottom: 10px; }
+        .instructions { margin-bottom: 20px; color: #555; }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Educational Video Generator</h1>
+        <div class="instructions">
+            <p>Enter your content below. Separate slides with blank lines.</p>
+        </div>
+        
+        {% if error %}<div class="error">{{ error }}</div>{% endif %}
+        
+        <form method="POST">
+            <textarea name="content" placeholder="Enter your content here...&#10;&#10;Example:&#10;&#10;This is slide 1.&#10;&#10;This is slide 2."></textarea>
+            <button type="submit">Generate Video</button>
+        </form>
+    </div>
+</body>
+</html>
