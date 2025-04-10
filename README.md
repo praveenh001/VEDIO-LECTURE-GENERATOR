@@ -30,10 +30,9 @@ Follow these steps to set up the **Video-Lecture-Generator** on your local machi
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/your-username/VIDEO-LECTURE-GENERATOR.git
-   cd VIDEO-LECTURE-GENERATOR
+   git clone https://github.com/praveenh001/VEDIO-LECTURE-GENERATOR.git
 
-2. **Create a Virtual Environment**:
+2. **Create a Virtual Environment(optional)**:
    ```bash
    python -m venv venv
    venv\Scripts\activate
