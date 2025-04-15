@@ -2,7 +2,7 @@
 
 This is an AI-based web project that will convert the content provided by the user into a video with voiceover on slides. The system generates dynamic educational videos from user-provided content.
 
-[Download Video](https://github.com/username/repo-name/raw/main/demo.mp4)
+[Download Video](https://github.com/praveenh001/VEDIO-LECTURE-GENERATOR.git/demo.mp4)
 
 ### **Overview**
 
